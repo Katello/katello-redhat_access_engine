@@ -1,0 +1,2 @@
+module RedHatAccessHelper
+end
