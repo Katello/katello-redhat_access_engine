@@ -11,13 +11,18 @@
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
 
 module RedHatAccess
-  class Engine < ::Rails::Engine
+  module Navigation
 
-    initializer :finisher_hook do |engine|
-      resources = Dir[File.dirname(__FILE__) + '/navigation/*.rb']
-      resources.uniq.each{ |f| require f }
- 
-      ::Navigation::Additions.insert_after(:organizations, RedHatAccess::Navigation::KnowledgeBase)
+    class KnowledgeBase < ::Navigation::Item
+
+      def initialize()
+        @key           = :knowledge_base
+        @display       = _("Red Hat Articles")
+        @authorization = lambda{true}
+        @url           = red_hat_access_red_hat_access_path
+      end
+
     end
+
   end
 end
