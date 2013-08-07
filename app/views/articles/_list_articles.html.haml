@@ -1,0 +1,6 @@
+- collection.each do |article|
+  - id = URI.parse(article[:uri]).path.split('/').last
+  .block.tall.article{:id => "article_#{id}",
+      "data-ajax_url" => "articles/#{id}",
+      "data-ajax_panelpage" => @panel_options[:initial_action]}
+    = render :partial => 'article', :locals => {:article => article}
