@@ -13,16 +13,27 @@
 module RedHatAccess
   module Navigation
 
-    class KnowledgeBase < ::Navigation::Item
+    class Articles < ::Navigation::Item
 
       def initialize()
-        @key           = :knowledge_base
+        @key           = :articles
         @display       = _("Red Hat Articles")
         @authorization = lambda{true}
-        @url           = red_hat_access_red_hat_access_path
+        @url           = red_hat_access_articles_path
       end
 
     end
 
+    def articles_navigation
+      [
+        { :key => :article_details,
+          :name =>_("Details"),
+          :url => lambda{edit_red_hat_access_articles_path(@article[:id])},
+          :if => lambda{@article},
+          :options => {:class=>"panel_link"},
+          :items => systems_subnav
+        }
+      ]
+    end
   end
 end
