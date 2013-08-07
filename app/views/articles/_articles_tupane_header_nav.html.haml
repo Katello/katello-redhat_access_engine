@@ -1,0 +1,5 @@
+= content_for :title do
+  #{@article[:title]}
+
+= content_for :navigation do
+  = render_menu(1..2, systems_navigation)

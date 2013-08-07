@@ -1,0 +1,28 @@
+
+= javascript 'widgets/jquery.jeditable.helpers'
+= render :partial => "articles_tupane_header_nav"
+
+= content_for :content do
+  #article
+    %form.form
+      %h5 #{_("Basic Information")}
+      .control-group
+        .label
+          = label :id, :id, _("ID")
+        .input
+          .value
+            = article[:id]
+      .control-group
+        .label
+          =label :tags, :tags, _("Tags")
+        .input
+          %span.value
+            %table#tags_table
+              - article[:tags].each do |tag|
+                %tr
+                  %td.interface_name
+                    = tag
+                  %td.interface_addr
+                    = tag
+
+= render :template => "layouts/tupane_layout"
