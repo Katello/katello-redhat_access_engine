@@ -1,3 +1,4 @@
+module RedHatAccess
 class ArticlesController < ::ApplicationController
 
   before_filter :panel_options, :only => [:index, :items]
@@ -11,10 +12,15 @@ class ArticlesController < ::ApplicationController
     }
   end
 
+  def index
+     render 'articles/index'
+  end 
+
   def items
     @articles = ArticleResource.search("satellite")
 
     render_panel_items(@articles, @panel_options, nil, "0")
+    #render 'articles/index'
   end
 
   def edit
@@ -29,13 +35,14 @@ class ArticlesController < ::ApplicationController
 
   def panel_options
     @panel_options = {
-      :title => _('Red Hat Articles'),
+      :title => _('Red Hat Access'),
       :col => ['value'],
       :titles => [_('Title')],
       :name => controller_display_name,
-      :list_partial => 'articles/list_articles',
-      :ajax_load  => true,
-      :ajax_scroll => items_red_hat_access_articles_path(),
+      :list_partial => 'articles/article',
+      :ajax_load  => false,
+      #:ajax_scroll => items_red_hat_access_articles_path(),
+      :ajax_scroll => nil,
       :enable_create => false,
       :initial_action => :edit
     }
@@ -265,4 +272,5 @@ class ArticlesController < ::ApplicationController
       "Configuration not set."
     end
   end
+end
 end
