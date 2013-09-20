@@ -1,16 +1,3 @@
-/**
- Copyright 2013 Red Hat, Inc.
-
- This software is licensed to you under the GNU General Public
- License as published by the Free Software Foundation; either version
- 2 of the License (GPLv2) or (at your option) any later version.
- There is NO WARRANTY for this software, express or implied,
- including the implied warranties of MERCHANTABILITY,
- NON-INFRINGEMENT, or FITNESS FOR A PARTICULAR PURPOSE. You should
- have received a copy of GPLv2 along with this software; if not, see
- http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
-*/
-
 var portal_hostname = 'access.redhat.com';
 var strata_hostname = 'api.' + portal_hostname;
 var baseAjaxParams = { 
@@ -29,37 +16,35 @@ var baseAjaxParams = {
     contentType : 'application/json',
     data : {}, 
     dataType : 'jsonp'
-};
+};  
+(function( $ ) {
 
-
-
-KT.panel.list.registerPage('articles', { create : 'new_article' });
-KT.panel.set_expand_cb(function() {
-    var children = $('#panel .menu_parent');
-    $.each(children, function(i, item) {
-        KT.menu.hoverMenu(item, { top : '75px' });
-    });
-});
 
 $(document).ready(function() {
-    KT.panel.set_expand_cb(function() {
-        KT.article.initialize_edit();
-    });
-    $(document).on('submit', '#search_form', function (evt) {
-        doSearch($('#search').val());
-        cancelDefaultAction(evt);
+    // Set up stuff for RHN/Strata queries
+    //console.log("on ready");
+    var authAjaxParams = $.extend({
+        url : 'https://' + portal_hostname +
+        '/services/user/status?jsoncallback=?',
+        success : function (auth) {
+            'use strict';
+            if (auth.authorized) {
+                $('#logged-in').html("<a href='http://access.redhat.com'>Logged in to the Red Hat Customer Portal as " + auth.name + "</a>");
+            } else {
+                $('#logged-in').html("<a style='color: #bd362f;' href='https://access.redhat.com'>Not logged in to the Red Hat Customer Portal, please login and refresh this page</a>");
+            }
+        }
+    }, baseAjaxParams);
+
+    // See if we are logged in to RHN or not
+    $.ajax(authAjaxParams);
+
+    $(document).on('submit', '#rh-search', function (evt) {
+        //console("on subbmit");
+        doSearch($('#rhSearchStr').val());
+        evt.preventDefault();
     });
 });
-
-KT.article = (function($) {
-    var initialize_edit = function() {
-        // empty for now
-    };
-
-    return {
-        initialize_edit: initialize_edit
-    };
-}(jQuery));
 
 function doSearch(searchStr) {
     getSolutionsFromText(searchStr, searchResults);
@@ -87,12 +72,13 @@ function getSolutionsFromText(data, handleSuggestions) {
       contentType: 'application/json',
       success: function(response_body) {
         //Get the array of suggestions
+        $('#solutions').html(''); //clear exiting results first
         var suggestions = response_body.source_or_link_or_problem[2].source_or_link;
-        //handleSuggestions(suggestions);
-        //alert("Got suggestions");
+        handleSuggestions(suggestions);
     },
     error: function(response) {
       //Handle error appropriately for your UI
+      $('#solutions').html("Unable to retrieve solutions.");
   }
 });
     $.ajax(getSolutionsFromTextParms);
@@ -152,10 +138,4 @@ function appendSolutionText(response, index) {
                                 + "<h3>Resolution</h3>" + resolution_html;
     $('#soln' + index + '-inner').append(solution_html);
 }
-
-function cancelDefaultAction(e) {
- var evt = e ? e:window.event;
- if (evt.preventDefault) evt.preventDefault();
- evt.returnValue = false;
- return false;
-}
+})( jQuery );
