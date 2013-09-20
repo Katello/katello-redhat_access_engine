@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.summary     = "Katello engine to access Red Hat knowledge base"
   s.description = "Katello engine to access Red Hat knowledge BCase Search"
 
-  s.files = Dir["{app,public,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,public,config,db,lib}/**/*"] + ["Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.13"

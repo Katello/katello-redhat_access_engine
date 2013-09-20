@@ -72,11 +72,13 @@ function getSolutionsFromText(data, handleSuggestions) {
       contentType: 'application/json',
       success: function(response_body) {
         //Get the array of suggestions
+        $('#solutions').html(''); //clear exiting results first
         var suggestions = response_body.source_or_link_or_problem[2].source_or_link;
         handleSuggestions(suggestions);
     },
     error: function(response) {
       //Handle error appropriately for your UI
+      $('#solutions').html("Unable to retrieve solutions.");
   }
 });
     $.ajax(getSolutionsFromTextParms);
