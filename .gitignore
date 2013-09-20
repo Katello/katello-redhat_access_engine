@@ -7,3 +7,5 @@ test/dummy/db/*.sqlite3
 test/dummy/log/*.log
 test/dummy/tmp/
 test/dummy/.sass-cache
+public/*
+red_hat_access-0.0.1.gem

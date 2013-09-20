@@ -1,0 +1,44 @@
+<div id="main" class="grid_16">
+	<div class="center">
+		<div id="container" class="container_16">
+			<div class="right_panel" style="width: 715px;">
+				<div id='solution'>
+				</div>
+			</div>
+			<div class = "column_panel_2 left_panel">
+				<div id="list-title" style="width: 375px;">
+					<header>
+						<h2 class="fl one-line-ellipsis">
+							Red Hat Access
+						</h2>
+					</header>
+					<div id="logged-in" class="f1 clear">
+					</div>
+					<form class='search' id="rh-search">
+						<fieldset>
+							<input type="text" id="rhSearchStr" name="searchString" 
+							class="auto_complete_input ui-autocomplete-input" placeholder="Search Articles and Solutions"/>
+							<button class='action' type="submit">Search</button>
+						</fieldset>
+					</form>
+				</div>
+				<div id="list" class="list">
+					<header>
+						<div class="block_head clear">
+							<div class="column_1">
+								Suggested Solutions
+							</div>
+						</div>
+					</header>
+					<div id='solutions' ></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+<script src="https:////ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script><!--was 1.10.1-->
+<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+
+<%= javascript_include_tag "red_hat_access/articles"%>
