@@ -45,7 +45,8 @@ task 'assets:precompile:engine' do
   require File.expand_path('../lib/red_hat_access', __FILE__)
 
   precompile = [
-    'red_hat_access/articles.js'
+    'red_hat_access/articles.js',
+    'red_hat_access/articles.css'
   ]
 
   env = Sprockets::Environment.new(RedHatAccess::Engine.root)
