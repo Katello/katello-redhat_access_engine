@@ -12,6 +12,7 @@
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
 */
 //= require bootstrap-collapse
+var access_client_id = 'redhat-client=read-access-plugin-sam~[VER]~'
 var portal_hostname = 'access.redhat.com';
 var strata_hostname = 'api.' + portal_hostname;
 var baseAjaxParams = { 
@@ -35,6 +36,16 @@ var baseAjaxParams = {
 
 
 $(document).ready(function() {
+    
+    checkLogIn();
+    $(document).on('submit', '#rh-search', function (evt) {
+        //console("on subbmit");
+        doSearch($('#rhSearchStr').val());
+        evt.preventDefault();
+    });
+});
+
+function checkLogIn(){
     // Set up stuff for RHN/Strata queries
     //console.log("on ready");
     var authAjaxParams = $.extend({
@@ -43,9 +54,10 @@ $(document).ready(function() {
         success : function (auth) {
             'use strict';
             if (auth.authorized) {
-                $('#logged-in').html("<a href='http://access.redhat.com'>Logged in to the Red Hat Customer Portal as " + auth.name + "</a>");
+                $('#logged-in').html("Logged in to the <a href='http://access.redhat.com'>Red Hat Customer Portal</a> as " + auth.name +
+                 ".<a href='https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout'> Logout</a>");
             } else {
-                $('#logged-in').html("<a style='color: #bd362f;' href='https://access.redhat.com'>Not logged in to the Red Hat Customer Portal, please login and refresh this page</a>");
+                $('#logged-in').html("<div style='color: #bd362f;'>Not logged in to the Red Hat Customer Portal.</div> <div>Please<a href='https://access.redhat.com'> login </a >and refresh this page.</div>");
             }
         }
     }, baseAjaxParams);
@@ -53,14 +65,10 @@ $(document).ready(function() {
     // See if we are logged in to RHN or not
     $.ajax(authAjaxParams);
 
-    $(document).on('submit', '#rh-search', function (evt) {
-        //console("on subbmit");
-        doSearch($('#rhSearchStr').val());
-        evt.preventDefault();
-    });
-});
+}
 
 function doSearch(searchStr) {
+    checkLogIn();
     getSolutionsFromText(searchStr, searchResults);
 }
 
@@ -78,7 +86,7 @@ function getSelectedText() {
 
 function getSolutionsFromText(data, handleSuggestions) {
     var getSolutionsFromTextParms = $.extend( {}, baseAjaxParams, {
-      url: 'https://' + strata_hostname + '/rs/problems?limit=10',
+      url: 'https://' + strata_hostname + '/rs/problems?'+access_client_id+'&limit=10',
       data: data,
       type: 'POST',
       method: 'POST',
@@ -87,6 +95,7 @@ function getSolutionsFromText(data, handleSuggestions) {
       success: function(response_body) {
         //Get the array of suggestions
         $('#solutions').html(''); //clear exiting results first
+        $('#solution').html(''); //clear exiting text first
         var suggestions = response_body.source_or_link_or_problem[2].source_or_link;
         handleSuggestions(suggestions);
     },
@@ -128,12 +137,16 @@ function fetchSolution(element, index, array) {
     var fetchSolutionText = $.extend({}, baseAjaxParams, {
         dataType: 'json',
         contentType: 'application/json',
-        url: element.uri,
+        url: element.uri + '?'+ access_client_id,
         type: "GET",
         method: "GET",
         success: function (response) {
             appendSolutionText(response, index);
+        },
+        error: function (response) {
+            appendSolutionText('Solution Not Available.', index); //TODO internationalize
         }
+
     });
     $('#solutions').append(accordion_header);
     $(".collapse").collapse('hide');
