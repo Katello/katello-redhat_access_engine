@@ -55,7 +55,9 @@ task 'assets:precompile:engine' do
 
   paths = [
     'app/assets/stylesheets',
-    'app/assets/javascripts'
+    'app/assets/javascripts',
+    'vendor/assets/javascripts',
+    'vendor/assets/stylesheets',
   ]
 
   paths.each do |path|
