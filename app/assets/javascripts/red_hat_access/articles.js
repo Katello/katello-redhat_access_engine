@@ -35,20 +35,33 @@ var baseAjaxParams = {
 (function( $ ) {
 
 
+<<<<<<< HEAD
     $(document).ready(function() {
 
         checkLogIn();
         $(window).on("focus", checkLogIn); // automatically recheck if the user navigates way from page
         $(document).on('submit', '#rh-search', function (evt) {
+=======
+$(document).ready(function() {
+    
+    checkLogIn();
+    $(document).on('submit', '#rh-search', function (evt) {
+>>>>>>> 26fc69f160c5968f7e97426297ab7389a807c2d6
         //console("on subbmit");
         doSearch($('#rhSearchStr').val());
         evt.preventDefault();
     });
+<<<<<<< HEAD
     });
 
     
 
     function checkLogIn(){
+=======
+});
+
+function checkLogIn(){
+>>>>>>> 26fc69f160c5968f7e97426297ab7389a807c2d6
     // Set up stuff for RHN/Strata queries
     //console.log("on ready");
     
@@ -58,6 +71,7 @@ var baseAjaxParams = {
         success : function (auth) {
             'use strict';
             if (auth.authorized) {
+<<<<<<< HEAD
                 $("#rhSearchStr").prop('disabled', false);
                 $('#logged-in').html("Logged in to the <a href='http://access.redhat.com'>Red Hat Customer Portal</a> as " + auth.name +
                    ".<a href='https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout' target='_blank'> Log Out</a>");
@@ -66,6 +80,13 @@ var baseAjaxParams = {
                 var ssoPage = 'https://www.redhat.com/wapps/sso/login.html?redirect=https://access.redhat.com/home';
                 $('#logged-in').html("<div style='color: #bd362f;'>Not logged in to the Red Hat Customer Portal.</div> <div>Please<a href=" + ssoPage + " target='_blank'> log in </a >and refresh this page.</div>");
            }
+=======
+                $('#logged-in').html("Logged in to the <a href='http://access.redhat.com'>Red Hat Customer Portal</a> as " + auth.name +
+                 ".<a href='https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout'> Logout</a>");
+            } else {
+                $('#logged-in').html("<div style='color: #bd362f;'>Not logged in to the Red Hat Customer Portal.</div> <div>Please<a href='https://access.redhat.com'> login </a >and refresh this page.</div>");
+            }
+>>>>>>> 26fc69f160c5968f7e97426297ab7389a807c2d6
         }
     }, baseAjaxParams);
     
@@ -75,6 +96,7 @@ var baseAjaxParams = {
 }
 
 function doSearch(searchStr) {
+<<<<<<< HEAD
     //checkLogIn();
     var authAjaxParams = $.extend({
         url : 'https://' + portal_hostname +
@@ -95,6 +117,10 @@ function doSearch(searchStr) {
         }
     }, baseAjaxParams);
     $.ajax(authAjaxParams);
+=======
+    checkLogIn();
+    getSolutionsFromText(searchStr, searchResults);
+>>>>>>> 26fc69f160c5968f7e97426297ab7389a807c2d6
 }
 
 function getSelectedText() {
@@ -169,9 +195,14 @@ function fetchSolution(element, index, array) {
             //console.log(response);
             appendSolutionText(response, index);
         },
+<<<<<<< HEAD
         error: function (response) {   
             //console.log(response);
             $('#soln' + index + '-inner').append('We were unable to retrieve details for this solution.');
+=======
+        error: function (response) {
+            appendSolutionText('Solution Not Available.', index); //TODO internationalize
+>>>>>>> 26fc69f160c5968f7e97426297ab7389a807c2d6
         }
 
     });
