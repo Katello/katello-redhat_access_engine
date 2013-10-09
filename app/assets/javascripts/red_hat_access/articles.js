@@ -35,41 +35,66 @@ var baseAjaxParams = {
 (function( $ ) {
 
 
-$(document).ready(function() {
-    
-    checkLogIn();
-    $(document).on('submit', '#rh-search', function (evt) {
+    $(document).ready(function() {
+
+        checkLogIn();
+        $(window).on("focus", checkLogIn); // automatically recheck if the user navigates way from page
+        $(document).on('submit', '#rh-search', function (evt) {
         //console("on subbmit");
         doSearch($('#rhSearchStr').val());
         evt.preventDefault();
     });
-});
+    });
 
-function checkLogIn(){
+    
+
+    function checkLogIn(){
     // Set up stuff for RHN/Strata queries
     //console.log("on ready");
+    
     var authAjaxParams = $.extend({
         url : 'https://' + portal_hostname +
         '/services/user/status?jsoncallback=?',
         success : function (auth) {
             'use strict';
             if (auth.authorized) {
+                $("#rhSearchStr").prop('disabled', false);
                 $('#logged-in').html("Logged in to the <a href='http://access.redhat.com'>Red Hat Customer Portal</a> as " + auth.name +
-                 ".<a href='https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout'> Logout</a>");
+                   ".<a href='https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout' target='_blank'> Log Out</a>");
             } else {
-                $('#logged-in').html("<div style='color: #bd362f;'>Not logged in to the Red Hat Customer Portal.</div> <div>Please<a href='https://access.redhat.com'> login </a >and refresh this page.</div>");
-            }
+                $("#rhSearchStr").prop('disabled', true);
+                var ssoPage = 'https://www.redhat.com/wapps/sso/login.html?redirect=https://access.redhat.com/home';
+                $('#logged-in').html("<div style='color: #bd362f;'>Not logged in to the Red Hat Customer Portal.</div> <div>Please<a href=" + ssoPage + " target='_blank'> log in </a >and refresh this page.</div>");
+           }
         }
     }, baseAjaxParams);
-
+    
     // See if we are logged in to RHN or not
     $.ajax(authAjaxParams);
 
 }
 
 function doSearch(searchStr) {
-    checkLogIn();
-    getSolutionsFromText(searchStr, searchResults);
+    //checkLogIn();
+    var authAjaxParams = $.extend({
+        url : 'https://' + portal_hostname +
+        '/services/user/status?jsoncallback=?',
+        success : function (auth) {
+            'use strict';
+            if (auth.authorized) {
+                getSolutionsFromText(searchStr, searchResults);
+                $("#rhSearchStr").prop('disabled', false);
+                $('#logged-in').html("Logged in to the <a href='http://access.redhat.com'>Red Hat Customer Portal</a> as " + auth.name +
+                   ".<a href='https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout' target='_blank'> Log Out</a>");
+            } else {
+                alert("You must log in before searching");
+                $("#rhSearchStr").prop('disabled', true);
+                var ssoPage = 'https://www.redhat.com/wapps/sso/login.html?redirect=https://access.redhat.com/home';
+                $('#logged-in').html("<div style='color: #bd362f;'>Not logged in to the Red Hat Customer Portal.</div> <div>Please<a href=" + ssoPage + " target='_blank'> log in </a >and refresh this page.</div>");
+           }
+        }
+    }, baseAjaxParams);
+    $.ajax(authAjaxParams);
 }
 
 function getSelectedText() {
@@ -120,12 +145,12 @@ function searchResults(suggestions) {
 
 function fetchSolution(element, index, array) {
     var accordion_header = "<div class='accordion-group'>"
-                                        + "<div class='accordion-heading'>"
-                                        + "<a class='accordion-toggle' data-toggle='collapse' "
-                                        + "data-parent='solnaccordion' href='#soln" + index + "'>"
-                                        + element.value + "</a></div>";
+    + "<div class='accordion-heading'>"
+    + "<a class='accordion-toggle' data-toggle='collapse' "
+    + "data-parent='solnaccordion' href='#soln" + index + "'>"
+    + element.value + "</a></div>";
     var soln_block = "<div id='soln" + index + "' class='accordion-body collapse in'>"
-                     + "<div id='soln" + index + "-inner' class='accordion-inner'></div></div></div>"
+    + "<div id='soln" + index + "-inner' class='accordion-inner'></div></div></div>"
 
     if (document.getElementById('solution') !== null) {
         $('#solution').append(soln_block);
@@ -141,10 +166,12 @@ function fetchSolution(element, index, array) {
         type: "GET",
         method: "GET",
         success: function (response) {
+            //console.log(response);
             appendSolutionText(response, index);
         },
-        error: function (response) {
-            appendSolutionText('Solution Not Available.', index); //TODO internationalize
+        error: function (response) {   
+            //console.log(response);
+            $('#soln' + index + '-inner').append('We were unable to retrieve details for this solution.');
         }
 
     });
@@ -161,8 +188,8 @@ function appendSolutionText(response, index) {
         resolution_html = response.resolution.html;
     }
     var solution_html = "<h3>Environment</h3>" + environment_html
-                                + "<h3>Issue</h3>" + issue_html
-                                + "<h3>Resolution</h3>" + resolution_html;
+    + "<h3>Issue</h3>" + issue_html
+    + "<h3>Resolution</h3>" + resolution_html;
     $('#soln' + index + '-inner').append(solution_html);
 }
 })( jQuery );

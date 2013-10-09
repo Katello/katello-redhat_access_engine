@@ -13,27 +13,19 @@
 module RedHatAccess
   module Navigation
 
-    class Articles < ::Navigation::Item
+    class RedHatAccessMenu < ::Navigation::Menu
 
-      def initialize()
-        @key           = :articles
-        @display       = _("Search")
-        @authorization = lambda { true }
-        @url           = red_hat_access_articles_path
+      def initialize(args)
+        @key           = :red_hat_access
+        @display       = _("Red Hat Access")
+        @authorization = true
+        @type          = 'dropdown'
+        @items         = [
+            RedHatAccess::Navigation::Articles.new
+        ]
+        super
       end
 
-    end
-
-    def articles_navigation
-      [
-          {:key     => :article_details,
-           :name    => _("Details"),
-           :url     => lambda { edit_red_hat_access_articles_path(@article[:id]) },
-           :if      => lambda { @article },
-           :options => {:class => "panel_link"},
-           :items   => systems_subnav
-          }
-      ]
     end
   end
 end
