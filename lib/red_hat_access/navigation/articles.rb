@@ -17,7 +17,7 @@ module RedHatAccess
 
       def initialize()
         @key           = :articles
-        @display       = _("Search")
+        @display       = _("Red Hat Access")
         @authorization = lambda { true }
         @url           = red_hat_access_articles_path
       end
