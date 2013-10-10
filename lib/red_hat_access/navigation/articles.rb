@@ -15,7 +15,7 @@ module RedHatAccess
 
     class Articles < ::Navigation::Item
 
-      def initialize()
+      def initialize(user)
         @key           = :articles
         @display       = _("Red Hat Access")
         @authorization = lambda{true}
