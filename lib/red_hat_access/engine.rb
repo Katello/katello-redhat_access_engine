@@ -18,7 +18,8 @@ module RedHatAccess
       resources = Dir[File.dirname(__FILE__) + '/navigation/*.rb']
       resources.uniq.each { |f| require f }
 
-      ::Navigation::Additions.insert_after(:organizations, RedHatAccess::Navigation::Articles)
+      ::Navigation::Additions.insert_before(:user, RedHatAccess::Navigation::RedHatAccessMenu)
+    
     end
 
     initializer :register_assets do |engine|

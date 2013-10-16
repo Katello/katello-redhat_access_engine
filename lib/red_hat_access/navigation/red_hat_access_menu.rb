@@ -21,7 +21,7 @@ module RedHatAccess
         @authorization = true
         @type          = 'dropdown'
         @items         = [
-            RedHatAccess::Navigation::Articles.new
+          RedHatAccess::Navigation::Articles.new
         ]
         super
       end
