@@ -1,20 +1,21 @@
 .grid_16
-  #helptip-closed_red_hat_access-index.helptip-close{style: "display: none;"}
+  #helptip-closed_red_hat_access-index.helptip-close{style: ""}
     .helptip-open-button
-  #helptip-opened_red_hat_access-index.helptip-open{style: ""}
+  #helptip-opened_red_hat_access-index.helptip-open{style: "display: none;"}
     .helptip-close-button
     %p Red Hat Access allows you to search for articles and solutions in the Red Hat knowledge base. A valid Red Hat customer portal account is required to use this feature.
+.grid_16
+  #logged-in.f1.clear
 #main.grid_16
   .center
     #container.container_16
-      .right_panel{style: "width: 715px;"}
+      .right_panel{style: "width: 700px;"}
         #solution
       .column_panel_2.left_panel
-        #list-title{style: "width: 375px;"}
+        #list-title{style: "width: 475px;"}
           %header
             %h2.fl.one-line-ellipsis
-              Red Hat Access
-          #logged-in.f1.clear
+              Red Hat Access: Search 
           %form#rh-search.search
             %fieldset
               %input#rhSearchStr.auto_complete_input.ui-autocomplete-input{name: "searchString", placeholder: "Search Articles and Solutions", type: "text"}/
@@ -25,7 +26,5 @@
               .column_1
                 Suggested Solutions
           #solutions
-%script{src: "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"}
-/ temporary till we sort out assets order
-= stylesheet_link_tag "red_hat_access/articles"
-= javascript_include_tag "red_hat_access/articles"
+= stylesheet "red_hat_access/articles"
+= javascript "red_hat_access/articles"
