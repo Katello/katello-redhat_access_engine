@@ -1,3 +1,37 @@
  /*
  *= require bootstrap-collapse
 */
+#container .left_panel h2 {
+    margin-bottom: 8px;
+    max-width: 264px;
+    width: 264px;
+}
+
+#container .left_panel .search {
+    float: left;  
+}
+
+#container .left_panel .search input[type="text"] {
+    width: 325px;
+}
+
+#container .right_panel {
+    margin-top: 85px;
+    background-color: white;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+#solutions .block.active a {
+    color : white;
+}
+
+#solutions .block:hover a {
+    color : white;
+}
+
+#solutions .block.active a:focus{
+    text-decoration: none;
+}
+
+

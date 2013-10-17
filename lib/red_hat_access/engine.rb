@@ -13,11 +13,13 @@
 module RedHatAccess
   class Engine < ::Rails::Engine
 
+
     initializer :finisher_hook do |engine|
       resources = Dir[File.dirname(__FILE__) + '/navigation/*.rb']
-      resources.uniq.each{ |f| require f }
+      resources.uniq.each { |f| require f }
 
-      ::Navigation::Additions.insert_before(:user, RedHatAccess::Navigation::Articles)
+      ::Navigation::Additions.insert_before(:user, RedHatAccess::Navigation::RedHatAccessMenu)
+    
     end
 
     initializer :register_assets do |engine|
