@@ -5,7 +5,7 @@
 %global rubyabi 1.9.1
 %global katello_dir /usr/share/katello
 %global katello_bundlerd_dir %katello_dir/bundler.d
-%global katello_assets_dir %katello_dir/assets
+%global katello_assets_dir %katello_dir/public/assets
 
 Name: %{?scl_prefix}rubygem-%{gem_name}
 Version: ~[VER]~
@@ -43,7 +43,7 @@ Katello engine to access Red Hat knowledge base search
 
 %setup -q -D -T -n  %{gem_name}-%{version}
 
-%{?scl:scl enable %{scl} "gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec"}
+# %{?scl:scl enable %{scl} "gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec"}
 
 %build
 mkdir -p .%{gem_dir}
@@ -78,9 +78,13 @@ GEMFILE
 %{katello_assets_dir}/red_hat_access
 
 %changelog
+* Fri Oct 25 2013 Rex White <rexwhite@redhat.com> - 0.0.1-1
+- Resolves: bz1004472
+- Fixed JS asset symlink location
+
 * Thu Oct 24 2013 Rex White <rexwhite@redhat.com>
 - Added symbolic links for precompiled JS assets
 
-* Thu Oct 15 2013 Rex White <rexwhite@redhat.com> - 0.0.1-1
+* Thu Oct 15 2013 Rex White <rexwhite@redhat.com>
 - Initial package
 

@@ -24,5 +24,6 @@ srpm: gem spec
 clean:
 	@rm -f katello-redhat_access_engine*.gem
 	@rm -f katello-redhat_access_engine.spec
+	@rm -fr ./public
 	@rm -f ./app/assets/javascripts/red_hat_access/articles.js
 	@rm -rf ./RPM

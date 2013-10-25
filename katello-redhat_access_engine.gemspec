@@ -14,6 +14,6 @@ Gem::Specification.new do |s|
   s.summary     = "Katello engine to access Red Hat knowledge base"
   s.description = "Katello engine to access Red Hat knowledge base search"
 
-  s.files = Dir["{app,public,config,db,lib,vendor}/**/*"] + ["Rakefile", "README.rdoc"]
+  s.files = Dir["{app,public,config,db,lib,vendor}/**/*"] + ["katello-redhat_access_engine.gemspec", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 end
