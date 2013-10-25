@@ -1,7 +1,7 @@
 %{?scl:%scl_package rubygem-%{gem_name}}
 %{!?scl:%global pkg_name %{name}}
 
-%global gem_name katello-redhat_access_engine
+%global gem_name katello-redhat-access-engine
 %global rubyabi 1.9.1
 %global katello_dir /usr/share/katello
 %global katello_bundlerd_dir %katello_dir/bundler.d
@@ -43,8 +43,6 @@ Katello engine to access Red Hat knowledge base search
 
 %setup -q -D -T -n  %{gem_name}-%{version}
 
-# %{?scl:scl enable %{scl} "gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec"}
-
 %build
 mkdir -p .%{gem_dir}
 
@@ -67,7 +65,7 @@ cp -pa .%{gem_dir}/* %{buildroot}%{gem_dir}/
 ln -s %{gem_dir}/gems/%{gem_name}-%{version}/public/assets/red_hat_access %{buildroot}%{katello_assets_dir}/red_hat_access
 
 cat <<GEMFILE > %{buildroot}%{katello_bundlerd_dir}/%{gem_name}.rb
-gem 'katello-redhat_access_engine', require: 'red_hat_access'
+gem 'katello-redhat-access-engine', require: 'red_hat_access'
 GEMFILE
 
 
@@ -80,7 +78,10 @@ GEMFILE
 %changelog
 * Fri Oct 25 2013 Rex White <rexwhite@redhat.com> - 0.0.1-1
 - Resolves: bz1004472
+
+* Fri Oct 25 2013 Rex White <rexwhite@redhat.com>
 - Fixed JS asset symlink location
+- Renamed gem and spec file to remove underscores
 
 * Thu Oct 24 2013 Rex White <rexwhite@redhat.com>
 - Added symbolic links for precompiled JS assets
