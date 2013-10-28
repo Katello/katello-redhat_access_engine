@@ -12,7 +12,7 @@
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
 */
 //= require bootstrap-collapse
-var access_client_id = 'redhat-client=read-access-plugin-sam~[VER]~'
+var access_client_id = 'redhat-client=redhat-access-plugin-sam~[VER]~-'
 var portal_hostname = 'access.redhat.com';
 var strata_hostname = 'api.' + portal_hostname;
 var baseAjaxParams = { 
